@@ -4,6 +4,8 @@ import (
 	"apigolang/configs"
 	"database/sql"
 	"fmt"
+	// importa o driver de conexão com o PostgreSQL
+	_ "github.com/lib/pq"
 )
 
 // cria função para abrir a conexão com o db
