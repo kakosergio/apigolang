@@ -27,7 +27,7 @@ type DBConfig struct {
 	Database string
 }
 
-// função inicializadora do GO. Pode ser comparada ao initState do Flutter, ou seja, vai ser executado primeiro
+// Função inicializadora do GO. Pode ser comparada ao initState do Flutter, ou seja, vai ser executado primeiro
 func init() {
 	// utiliza o viper para gravar informações padrão de acesso à API, caso não consiga ela pelo arquivo de configuração
 	viper.SetDefault("api.port", "9000")
@@ -35,7 +35,7 @@ func init() {
 	viper.SetDefault("database.port", "5432")
 }
 
-// cria uma função de Load que buscará as configurações do DB e da API em um arquivo de configuração
+// Função de Load que busca as configurações do DB e da API em um arquivo de configuração
 func Load() error {
 	// nome do arquivo de configuração
 	viper.SetConfigName("config")
@@ -43,7 +43,7 @@ func Load() error {
 	viper.SetConfigType("toml")
 	// o arquivo de configuração sempre estará na pasta raiz que o binário estiver. É isso que o ponto significa
 	viper.AddConfigPath(".")
-	// cria uma variável err que irá ler o arquivo de configuração e salvar as informações em si mesmo
+	// cria uma variável err que irá ler o arquivo de configuração e salvar as informações em si mesmo. Retorna erro ou nil
 	err := viper.ReadInConfig()
 	// verifica se a variável está vazia. Se estiver, verifica se o erro é que o arquivo de configuração não foi encontrado e retorna err
 	if err != nil {
@@ -51,7 +51,7 @@ func Load() error {
 			return err
 		}
 	}
-	// inicializa a variável cfg criada lá em cima, alocando espaço na memória
+	// inicializa a variável cfg criada lá em cima, alocando espaço na memória, com dados a serem preenchidos
 	cfg = new(config)
 
 	// grava na variável cfg, no struct API.port a porta que está definida no arquivo de configuração, recuperado pelo viper
@@ -70,12 +70,12 @@ func Load() error {
 	return nil
 }
 
-// cria função para retornar as configurações de acesso do banco de dados
+// Função que retorna as configurações de acesso do banco de dados
 func GetDB() DBConfig {
 	return cfg.DB
 }
 
-// cria função para retornar configuração da porta para acesso à API
+// Função que retorna configuração da porta para acesso à API
 func GetServerPort() string {
 	return cfg.API.Port
 }
