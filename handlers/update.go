@@ -9,6 +9,7 @@ import (
 
 func Update(w http.ResponseWriter, r *http.Request){
 	id, err := strconv.Atoi(chi .URLParam(r, "id"))
+	teste := 0
 
 	if err != nil {
 		log.Printf("Erro ao fazer decode do json: %v", err)
