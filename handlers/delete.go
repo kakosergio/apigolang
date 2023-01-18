@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func Update(w http.ResponseWriter, r *http.Request) {
+func Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 
 	if err != nil {
@@ -19,36 +19,23 @@ func Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var todo models.Todo
-
-	err = json.NewDecoder(r.Body).Decode(&todo)
-
-	// tratamento de erro, se err for diferente de nil, loga o erro e responde a request com um http.Error, passando como parâmetro o
-	// ResponseWriter w (que é a gravação da resposta do cliente), a string de resposta para o cliente e o status code, que nesse caso
-	// estamos escrevendo e enviando como resposta o status code 500 (internal server error, ou bad request)
-	if err != nil {
-		log.Printf("Erro ao fazer decode do json: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	rows, err := models.Update(int64(id), todo)
+	rows, err := models.Delete(int64(id))
 
 	if err != nil {
-		log.Printf("Erro ao atualizar registro: %v", err)
+		log.Printf("Erro ao excluir o registro: %v", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
 	if rows > 1 {
-		log.Printf("Erro: foram atualizados %v registros", rows)
+		log.Printf("Erro: foram excluídos %v registros", rows)
 	}
 
 	resp := map[string]any{
 		"Error":   false,
-		"Message": "dados atualizados com sucesso!",
+		"Message": "dados excluídos com sucesso!",
 	}
-	
+
 	// Feito o tratamento de erro e salva a resposta na variável resp, solicita ao ResponseWriter w que adicione ao Header do HTTP que
 	// o conteúdo do body é um JSON
 	w.Header().Add("Content-Type", "application/json")
