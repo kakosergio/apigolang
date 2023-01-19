@@ -1,0 +1,9 @@
+[api]
+port = "9000"
+
+[database]
+host = "localhost"
+port = ""
+user = "user_todo"
+pass = "1122"
+name = "api_todo"

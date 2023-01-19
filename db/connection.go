@@ -29,8 +29,12 @@ func OpenConnection() (*sql.DB, error){
 		panic(err)
 	}
 
+	fmt.Printf("Conexão com o banco de dados estabelecida: host=%v port=%v user=%v password=%v dbname=%v", conf.Host, conf.Port, conf.User, conf.Pass, conf.Database)
+
 	// se passar da validação, ou seja, se err contiver nil, faz um ping no db. Se o retorno for nil, tá tudo certo.
 	err = conn.Ping()
+
+	fmt.Printf("O retorno do ping ao banco de dados: %v", err)
 
 	// retorna a conexão e a variável err para quem chamou a função
 	return conn, err
