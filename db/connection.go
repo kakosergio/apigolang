@@ -4,6 +4,8 @@ import (
 	"apigolang/configs"
 	"database/sql"
 	"fmt"
+	"log"
+
 	// importa o driver de conexão com o PostgreSQL
 	_ "github.com/lib/pq"
 )
@@ -12,6 +14,8 @@ import (
 func OpenConnection() (*sql.DB, error){
 	// cria variável para pegar as configurações de acesso ao db
 	conf := configs.GetDB()
+
+	log.Printf("Dados da variável conf: %v, %v, %v, %v, %v", conf.Database, conf.Host, conf.Pass, conf.Port, conf.User)
 
 	// cria a string de acesso ao DB
 	sc := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
@@ -22,6 +26,9 @@ func OpenConnection() (*sql.DB, error){
 	// por esse motivo é necessário declarar duas variáveis, para guardar os dois retornos
 	conn, err := sql.Open("postgres", sc)
 
+	log.Printf("Erros até o momento?: %v", err)
+	log.Printf("Dados da conexão: %v", sc)
+
 	// valida se há erro e encerra a aplicação
 	if err != nil {
 		// esse panic encerra a aplicação e retorna o erro no terminal.
@@ -29,12 +36,10 @@ func OpenConnection() (*sql.DB, error){
 		panic(err)
 	}
 
-	fmt.Printf("Conexão com o banco de dados estabelecida: host=%v port=%v user=%v password=%v dbname=%v", conf.Host, conf.Port, conf.User, conf.Pass, conf.Database)
-
 	// se passar da validação, ou seja, se err contiver nil, faz um ping no db. Se o retorno for nil, tá tudo certo.
 	err = conn.Ping()
 
-	fmt.Printf("O retorno do ping ao banco de dados: %v", err)
+	log.Printf("Problema em fazer ping no bd?: %v", err)
 
 	// retorna a conexão e a variável err para quem chamou a função
 	return conn, err

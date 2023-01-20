@@ -3,7 +3,7 @@ port = "9000"
 
 [database]
 host = "localhost"
-port = ""
+port = "5432"
 user = "user_todo"
 pass = "1122"
 name = "api_todo"
